@@ -1,11 +1,16 @@
 import { CustomButton } from './styles.js';
 
-function Button({ children, onClick, disabled }) {
+export default function Button({ children, onClick, backgroundColor, backgroundColorHover, type, width, marginTop = 0 }) {
     return (
-        <CustomButton onClick={onClick} disabled={disabled}>
+        <CustomButton
+        onClick={onClick}
+        type={type}
+        style={{ width: width }}
+        $backgroundColor={backgroundColor}
+        $backgroundColorHover={backgroundColorHover}
+        marginTop={marginTop}
+        >
             {children}
         </CustomButton>
     )
 }
-
-export default Button

@@ -1,7 +1,7 @@
 import './App.css'
 import Login from './pages/Login'
 
-function App() {
+export default function App() {
 
   return (
     <>
@@ -9,5 +9,3 @@ function App() {
     </>
   )
 }
-
-export default App
