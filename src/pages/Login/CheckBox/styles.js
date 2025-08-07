@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  align-items: start;
+  width: 420px;
+`;
+
 export const Wrapper = styled.label`
     display: flex;
     align-items: center;
