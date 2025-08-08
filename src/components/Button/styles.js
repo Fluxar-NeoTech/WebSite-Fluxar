@@ -1,21 +1,22 @@
 import styled from "styled-components";
 
 export const CustomButton = styled.button`
-    background-color: ${props => props.$backgroundColor || "#3498db"};
+    background: ${props => props.$background || "#3498db"};
     color: white;
     padding: 12px 24px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    transition: 0.3s;
+    background-size: 200% auto;
+    transition: background-position 0.3s ease;
     margin-top: ${props => props.marginTop}px;
 
     &:hover {
-        background-color: ${props => props.$backgroundColorHover || "#2980b9"};
+        background-position: right center;
     }
-    
+
     &:active {
-        background-color: ${props => props.$backgroundColor || "#2980b9"};
+        background-position: left center;
     }
 `;

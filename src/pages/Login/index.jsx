@@ -22,8 +22,8 @@ export default function Login() {
                     <Button
                     type="submit"
                     width="300px"
-                    backgroundColor="#46005a"
-                    backgroundColorHover="#720892ff"
+                    background="linear-gradient(to right, #46005a, #a03cbeff);"
+                    backgroundHover="linear-gradient(to right, #650a80ff, #9a1ac4ff)"
                     marginTop="20"
                     >Entrar</Button>
                 </FormLogin>
