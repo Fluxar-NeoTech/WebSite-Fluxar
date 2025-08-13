@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "../../styles/breakpoints";
 
 export const InputContainer = styled.div`
     display: flex;
@@ -13,6 +14,10 @@ export const InputContainer = styled.div`
     &:focus-within {
       border-color: rgba(243, 156, 18, 0.6);
       box-shadow: 0 0 5px rgba(243, 156, 18, 0.6);
+    }
+
+    @media ${breakpoints.lg} {
+        width: 300px;
     }
 `;
 

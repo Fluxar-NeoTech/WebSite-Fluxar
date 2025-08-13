@@ -1,9 +1,14 @@
 import styled from "styled-components";
+import { breakpoints } from "../../../styles/breakpoints";
 
 export const Container = styled.div`
   display: flex;
   align-items: start;
   width: 420px;
+
+  @media ${breakpoints.lg} {
+    width: 300px;
+  }
 `;
 
 export const Wrapper = styled.label`

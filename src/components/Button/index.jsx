@@ -5,7 +5,7 @@ export default function Button({ children, onClick, background, backgroundHover,
         <CustomButton
         onClick={onClick}
         type={type}
-        style={{ width: width }}
+        $width={width}
         $background={background}
         $backgroundHover={backgroundHover}
         marginTop={marginTop}
