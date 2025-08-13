@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "../../styles/breakpoints";
 
 export const Container = styled.div`
     display: flex;
@@ -26,6 +27,16 @@ export const Left = styled.div`
         font-size: 50px;
         color: #3498db;
     }
+
+    @media ${breakpoints.lg} {
+        & img {
+            width: 300px;
+        }
+    }
+
+    @media ${breakpoints.md} {
+        display: none;
+    }
 `;
 
 export const FormLogin = styled.form`
@@ -39,5 +50,16 @@ export const FormLogin = styled.form`
         font-family: Montserrat, sans-serif;
         font-size: 50px;
         color: #46005a;
+        text-align: center;
+    }
+
+    @media ${breakpoints.lg} {
+        & h2 {
+            font-size: 40px;
+        }
+    }
+
+    @media ${breakpoints.sm} {
+        height: 350px;
     }
 `;
