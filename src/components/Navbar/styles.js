@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { breakpoints } from "../../styles/breakpoints";
 
 export const NavbarContainer = styled.nav`
     display: flex;

@@ -8,7 +8,6 @@ import { useState, useRef, useEffect } from "react";
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const profileRef = useRef(null);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
