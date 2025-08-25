@@ -1,0 +1,36 @@
+name: 🚀 CI React + Vite
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Baixar código
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🧪 Executar testes
+        run: npm test -- --watchAll=false --passWithNoTests
+
+      - name: 🏗️ Fazer build
+        run: npm run build
+        env:
+          CI: false  # Importante para Vite
+
+      - name: 📊 Coverage (opcional)
+        run: |
+          if [ -f "coverage/lcov.info" ]; then
+            npx coverage-badge > coverage/badge.svg
+          fi
