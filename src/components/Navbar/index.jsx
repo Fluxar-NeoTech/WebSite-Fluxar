@@ -1,12 +1,14 @@
 import FluxarLogo from "../../assets/Logo.svg";
 import { NavbarContainer, Logo, Menu, ProfileIcon, Left, Right, Dropdown } from "./styles";
 import ProfileIconSVG from "../../assets/profile_icon.svg";
+import MenuIcon from "../../assets/menu_icon.svg";
 import { useState, useRef, useEffect } from "react";
 
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const profileRef = useRef(null);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
