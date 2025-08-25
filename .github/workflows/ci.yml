@@ -1,0 +1,36 @@
+name: 🚀 CI React + Vite
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Baixar código
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🧪 Executar testes (se existir)
+        run: npm run test --if-present
+
+      - name: 🔍 Executar ESLint
+        run: npm run lint
+
+      - name: 🏗️ Fazer build de produção
+        run: npm run build
+        env:
+          CI: false
+
+      - name: 🔥 Testar build (opcional)
+        run: npm run preview -- --port 4173 & sleep 5 && curl -f http://localhost:4173 || exit 0
