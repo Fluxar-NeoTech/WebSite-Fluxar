@@ -1,6 +1,6 @@
 import { Container, Wrapper, Checkbox } from "./styles"
 
-export default function CheckBox({ checked, onChange, label = 'Salvar senha' }) {
+export default function CheckBox({ checked, onChange, label = 'Salvar login' }) {
     return (
         <Container>
             <Wrapper>
