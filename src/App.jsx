@@ -1,13 +1,23 @@
-import './App.css';
-import Login from './pages/Login';
-import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import "./App.css";
 
 export default function App() {
-
   return (
-    <>
-      {/* <Login /> */}
-      <Navbar />
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
