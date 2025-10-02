@@ -15,18 +15,45 @@ import { useState, useRef, useEffect } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState(ProfileIconSVG);
   const profileRef = useRef(null);
   const navigate = useNavigate();
   const rememberMe = localStorage.getItem("rememberMe");
   const user = JSON.parse(localStorage.getItem("user"));
-  const profileImage = user?.fotoPerfil || ProfileIconSVG;
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/");
   };
 
+  const handleProfile = async () => {
+    try {
+      const idUser = Number(user?.id);
+      const response = await fetch(
+        "https://api-fluxar.onrender.com/api/employee/profile/" + idUser,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (!response.ok) {
+        alert("Não foi possível carregar o perfil!");
+        return;
+      }
+
+      const data = await response.json();
+
+      setProfileImage(data.profilePhoto || ProfileIconSVG);
+    } catch (err) {
+      console.log("Erro ao carregar o perfil: ", err);
+      alert("Erro na conexão com o servidor");
+    }
+  };
+
   useEffect(() => {
+    handleProfile();
+    
     if (rememberMe === "false") {
       localStorage.removeItem("user");
     }

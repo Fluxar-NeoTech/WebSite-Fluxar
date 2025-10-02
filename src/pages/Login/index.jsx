@@ -10,7 +10,7 @@ import Logo from "../../assets/Logo.svg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ export default function Login() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, senha }),
+          body: JSON.stringify({ email, password }),
         }
       );
 
@@ -75,8 +75,8 @@ export default function Login() {
             placeholder="Senha"
             type="password"
             icon={PasswordIcon}
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <CheckBox
             checked={rememberMe}
