@@ -183,7 +183,7 @@ export default function Navbar() {
         <Menu>
           <li>Home</li>
           <li>ChatBot</li>
-          <li>Sobre nós</li>
+          <li>Relatórios</li>
         </Menu>
 
         <ProfileIcon ref={profileRef}>
