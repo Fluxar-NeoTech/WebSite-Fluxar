@@ -51,7 +51,7 @@ export default function Navbar() {
     try {
       const idUser = Number(user?.id);
       const response = await fetch(
-        `/api/employee/profile/${idUser}`,
+        `https://api-fluxar.onrender.com/api/employee/profile/${idUser}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -95,11 +95,9 @@ export default function Navbar() {
       formData.append('file', file);
 
       const email = user?.email;
-      if (!email) {
-        throw new Error('Email do usuário não encontrado');
-      }
+      if (!email) throw new Error('Email do usuário não encontrado');
 
-      const url = `/api/employee/update-photo-site?email=${encodeURIComponent(email)}`;
+      const url = `https://api-fluxar.onrender.com/api/employee/update-photo-site?email=${encodeURIComponent(email)}`;
 
       const response = await fetch(url, {
         method: "PUT",
@@ -109,33 +107,29 @@ export default function Navbar() {
       console.log("Response status:", response.status);
 
       if (!response.ok) {
-        let errorMessage = 'Erro ao fazer upload da imagem';
-        
+        let errorMessage = `Erro ${response.status}: ${response.statusText}`;
+
         try {
           const errorText = await response.text();
           console.log("Error response:", errorText);
           
-          if (errorText) {
+          if (errorText && errorText.trim().startsWith("{")) {
             const errorData = JSON.parse(errorText);
             errorMessage = errorData.message || errorMessage;
-          } else {
-            errorMessage = `Erro ${response.status}: ${response.statusText}`;
+          } else if (errorText) {
+            errorMessage = errorText;
           }
         } catch (error) {
-          errorMessage = `Erro ${response.status}: ${response.statusText}`;
-          console.log("Error:", error);
+          console.log("Erro ao processar a resposta de erro:", error);
         }
         
         throw new Error(errorMessage);
       }
 
       await handleProfile();
-      
       alert('Foto de perfil atualizada com sucesso!');
 
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
 
     } catch (err) {
       console.error("Erro ao fazer upload da foto:", err);
@@ -147,30 +141,21 @@ export default function Navbar() {
   };
 
   const getProfileImageWithCacheBuster = () => {
-    if (profileImage === ProfileIconSVG) {
-      return profileImage;
-    }
-    return `${profileImage}?t=${new Date().getTime()}`;
+    return profileImage === ProfileIconSVG ? profileImage : `${profileImage}?t=${new Date().getTime()}`;
   };
 
   useEffect(() => {
     handleProfile();
     
     const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setOpen(false);
-      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) setOpen(false);
     };
     
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleProfile]);
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   return (
     <NavbarContainer>
@@ -189,10 +174,7 @@ export default function Navbar() {
         <ProfileIcon ref={profileRef}>
           <div 
             onClick={() => !isUploading && setOpen(!open)}
-            style={{ 
-              position: 'relative',
-              cursor: isUploading ? 'wait' : 'pointer'
-            }}
+            style={{ position: 'relative', cursor: isUploading ? 'wait' : 'pointer' }}
           >
             <img
               src={getProfileImageWithCacheBuster()}
@@ -207,11 +189,7 @@ export default function Navbar() {
                 objectFit: 'cover'
               }}
             />
-            {isUploading && (
-              <div style={loadingStyle}>
-                ...
-              </div>
-            )}
+            {isUploading && <div style={loadingStyle}>...</div>}
           </div>
           
           <HiddenFileInput
@@ -225,20 +203,14 @@ export default function Navbar() {
             <Dropdown>
               <li 
                 onClick={handleFileSelect}
-                style={{ 
-                  pointerEvents: isUploading ? 'none' : 'auto',
-                  opacity: isUploading ? 0.6 : 1
-                }}
+                style={{ pointerEvents: isUploading ? 'none' : 'auto', opacity: isUploading ? 0.6 : 1 }}
               >
                 {isUploading ? 'Enviando...' : 'Alterar foto de perfil'}
               </li>
               <li 
                 id="logout" 
                 onClick={handleLogout}
-                style={{ 
-                  pointerEvents: isUploading ? 'none' : 'auto',
-                  opacity: isUploading ? 0.6 : 1
-                }}
+                style={{ pointerEvents: isUploading ? 'none' : 'auto', opacity: isUploading ? 0.6 : 1 }}
               >
                 Sair da conta
               </li>
