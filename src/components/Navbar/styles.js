@@ -35,20 +35,22 @@ export const Menu = styled.ul`
     li {
         cursor: pointer;
         font-weight: 500;
-        transition: opacitiy 0.2s;
+        transition: opacity 0.2s;
 
         &:hover {
             opacity: 0.8;
         }
     }
-
 `;
-
 
 export const ProfileIcon = styled.div`
     cursor: pointer;
+    position: relative;
+    
     img {
         height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 `;
 
@@ -80,7 +82,6 @@ export const Dropdown = styled.ul`
     }
 `;
 
-
 export const Left = styled.div`
     display: flex;
     align-items: center;
@@ -90,4 +91,8 @@ export const Right = styled.div`
     display: flex;
     align-items: center;
     gap: 2rem;
+`;
+
+export const HiddenFileInput = styled.input`
+    display: none;
 `;
