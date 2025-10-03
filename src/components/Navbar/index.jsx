@@ -11,7 +11,7 @@ import {
   HiddenFileInput
 } from "./styles";
 import ProfileIconSVG from "../../assets/profile_icon.svg";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 const loadingStyle = {
   position: 'absolute',
@@ -37,15 +37,17 @@ export default function Navbar() {
   const profileRef = useRef(null);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  
+  const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"));
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("rememberMe");
+    sessionStorage.removeItem("user");
     navigate("/");
   };
 
-  const handleProfile = async () => {
+  const handleProfile = useCallback(async () => {
     try {
       const idUser = Number(user?.id);
       const response = await fetch(
@@ -66,7 +68,7 @@ export default function Navbar() {
     } catch (err) {
       console.log("Erro ao carregar o perfil: ", err);
     }
-  };
+  }, [user?.id]);
 
   const handleFileSelect = () => {
     fileInputRef.current?.click();
@@ -119,7 +121,7 @@ export default function Navbar() {
           } else {
             errorMessage = `Erro ${response.status}: ${response.statusText}`;
           }
-        } catch (parseError) {
+        } catch (error) {
           errorMessage = `Erro ${response.status}: ${response.statusText}`;
         }
         
@@ -163,9 +165,8 @@ export default function Navbar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [handleProfile]);
 
-  // Se não há usuário, não renderiza o navbar
   if (!user) {
     return null;
   }

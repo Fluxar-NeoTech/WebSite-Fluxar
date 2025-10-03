@@ -16,13 +16,20 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loggedUser = JSON.parse(localStorage.getItem("user"));
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    const userFromSessionStorage = JSON.parse(sessionStorage.getItem("user"));
+    const rememberMeStored = localStorage.getItem("rememberMe");
+    
+    const loggedUser = userFromLocalStorage || userFromSessionStorage;
     
     if (loggedUser && loggedUser.role === "A") {
+      console.log("Usuário admin encontrado, redirecionando para home");
       navigate("/home");
     } else if (loggedUser) {
+      console.log("Usuário não admin encontrado, limpando storage");
       localStorage.removeItem("user");
       localStorage.removeItem("rememberMe");
+      sessionStorage.removeItem("user");
     }
   }, [navigate]);
 
@@ -36,7 +43,7 @@ export default function Login() {
 
     setIsLoading(true);
 
-    try {
+    try {      
       const response = await fetch(
         "https://api-fluxar.onrender.com/api/employee/login",
         {
@@ -60,15 +67,19 @@ export default function Login() {
         return;
       }
 
-      localStorage.setItem("user", JSON.stringify(data));
-
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+      
       if (rememberMe) {
+        localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("rememberMe", "true");
       } else {
+        sessionStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("rememberMe", "false");
       }
 
-      navigate("/home");
+      console.log("Redirecionando para home...");
+      navigate("/home", { replace: true });
 
     } catch (err) {
       console.error("Erro ao realizar login:", err);
@@ -105,6 +116,7 @@ export default function Login() {
           <CheckBox
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
+            label="Lembrar de mim"
           />
           <Button
             type="submit"
