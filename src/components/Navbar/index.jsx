@@ -123,6 +123,7 @@ export default function Navbar() {
           }
         } catch (error) {
           errorMessage = `Erro ${response.status}: ${response.statusText}`;
+          console.log("Error:", error);
         }
         
         throw new Error(errorMessage);

@@ -18,7 +18,6 @@ export default function Login() {
   useEffect(() => {
     const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
     const userFromSessionStorage = JSON.parse(sessionStorage.getItem("user"));
-    const rememberMeStored = localStorage.getItem("rememberMe");
     
     const loggedUser = userFromLocalStorage || userFromSessionStorage;
     

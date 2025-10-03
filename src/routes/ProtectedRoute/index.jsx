@@ -20,6 +20,7 @@ export default function ProtectedRoute({ children }) {
       return <Navigate to="/" replace />;
     }
   } catch (error) {
+    console.log("Erro: ", error);
     localStorage.removeItem("user");
     sessionStorage.removeItem("user");
     localStorage.removeItem("rememberMe");
