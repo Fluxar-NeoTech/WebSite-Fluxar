@@ -35,6 +35,8 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     
+    const origin = "WEBSITE";
+
     if (!email || !password) {
       alert("Por favor, preencha e-mail e senha!");
       return;
@@ -48,7 +50,7 @@ export default function Login() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, password, origin }),
         }
       );
 
