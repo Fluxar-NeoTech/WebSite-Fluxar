@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import FluxarLogo from "../../assets/Logo.svg";
 import {
   NavbarContainer,
   Logo,
   Menu,
+  MenuItem,
   ProfileIcon,
   Left,
   Right,
@@ -37,6 +38,7 @@ export default function Navbar() {
   const profileRef = useRef(null);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation(); // Para saber a rota atual
   
   const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"));
 
@@ -45,6 +47,10 @@ export default function Navbar() {
     localStorage.removeItem("rememberMe");
     sessionStorage.removeItem("user");
     navigate("/");
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   const handleProfile = useCallback(async () => {
@@ -166,9 +172,24 @@ export default function Navbar() {
       </Left>
       <Right>
         <Menu>
-          <li>Home</li>
-          <li>ChatBot</li>
-          <li>Relatórios</li>
+          <MenuItem 
+            active={location.pathname === '/home'}
+            onClick={() => handleNavigation('/home')}
+          >
+            Home
+          </MenuItem>
+          <MenuItem 
+            active={location.pathname === '/chatbot'}
+            onClick={() => handleNavigation('/chatbot')}
+          >
+            ChatBot
+          </MenuItem>
+          <MenuItem 
+            active={location.pathname === '/relatorios'}
+            onClick={() => handleNavigation('/relatorios')}
+          >
+            Relatórios
+          </MenuItem>
         </Menu>
 
         <ProfileIcon ref={profileRef}>

@@ -27,6 +27,5 @@ export default function ProtectedRoute({ children }) {
     return <Navigate to="/" replace />;
   }
 
-  console.log("Usuário autenticado, renderizando conteúdo protegido");
   return children;
 }
