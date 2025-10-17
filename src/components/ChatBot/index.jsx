@@ -41,6 +41,7 @@ export default function ChatBot() {
 
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
+      console.log(err);
       setMessages((prev) => [
         ...prev,
         { sender: "bot", text: "❌ Erro ao conectar com o servidor." },
