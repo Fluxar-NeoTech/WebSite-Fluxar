@@ -10,6 +10,7 @@ import {
 export default function ChatBot() {
   const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"));
   const userId = (user?.id);
+  const userName = JSON.parse(localStorage.getItem("name") || sessionStorage.getItem("name"));
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -63,7 +64,7 @@ export default function ChatBot() {
     <Container>
       {!showChat ? (
         <Welcome>
-          <h1>Bem-vindo ao Flux.AI, Carlos!</h1>
+          <h1>Bem-vindo ao Flux.AI, {userName}!</h1>
           <p>Tire dúvidas, insights e busque soluções</p>
           <div className="buttons">
             <button onClick={() => handleSuggestion("Estou tendo baixas no estoque")}>

@@ -38,12 +38,14 @@ export default function Navbar() {
   const profileRef = useRef(null);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation(); // Para saber a rota atual
+  const location = useLocation();
   
   const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"));
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("name");
+    sessionStorage.removeItem("name");
     localStorage.removeItem("rememberMe");
     sessionStorage.removeItem("user");
     navigate("/");
@@ -71,6 +73,11 @@ export default function Navbar() {
 
       const data = await response.json();
       setProfileImage(data.profilePhoto || ProfileIconSVG);
+      if (localStorage.getItem("rememberMe") === "true") {
+        localStorage.setItem("name", JSON.stringify(data.firstName));
+      } else {
+        sessionStorage.setItem("name", JSON.stringify(data.firstName));
+      }
     } catch (err) {
       console.log("Erro ao carregar o perfil: ", err);
     }
