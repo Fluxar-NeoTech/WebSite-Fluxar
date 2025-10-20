@@ -31,16 +31,34 @@ export const Menu = styled.ul`
     display: flex;
     list-style: none;
     gap: 2rem;
+`;
 
-    li {
-        cursor: pointer;
-        font-weight: 500;
-        transition: opacity 0.2s;
+export const MenuItem = styled.li`
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    padding: 8px 16px;
+    border-radius: 8px;
+    position: relative;
 
-        &:hover {
-            opacity: 0.8;
-        }
+    /* Underline apenas quando ativo */
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 16px;
+        right: 16px;
+        height: 2px;
+        background-color: ${props => props.active ? 'white' : 'transparent'};
+        transition: background-color 0.2s;
     }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Remove o background quando ativo */
+    background: ${props => props.active ? 'transparent' : 'transparent'};
 `;
 
 export const ProfileIcon = styled.div`
