@@ -62,7 +62,9 @@ export default function Navbar() {
         `https://api-fluxar.onrender.com/api/employee/profile/${idUser}`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Authorization": `Bearer ${user?.token}`,
+          }
         }
       );
 
