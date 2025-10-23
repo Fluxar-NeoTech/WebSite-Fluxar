@@ -1,16 +1,26 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: fixed;
+  top: 62px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   background: linear-gradient(to bottom, #f7b886, #c993f5);
   color: white;
-  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   font-family: "Poppins", sans-serif;
+
+  overflow: hidden;
+  z-index: 1;
+  padding: 20px;
 `;
+
 
 export const Welcome = styled.div`
   text-align: center;
@@ -120,18 +130,25 @@ export const InputArea = styled.form`
     background: #4a006e;
     color: white;
     border: none;
+    padding: 0px;
+    padding-left: 2px;
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.3s;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 
     &:hover {
       background: #5c0b8a;
     }
+
+    svg {
+      color: white;
+    }
   }
+
 `;
