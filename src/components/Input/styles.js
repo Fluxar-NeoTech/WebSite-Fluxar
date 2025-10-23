@@ -38,7 +38,7 @@ export const StyledInput = styled.input`
   padding: none;
 
   &::placeholder {
-    color: #f39c12;
+    color: #aaa;
   }
 
   &:focus {

@@ -68,6 +68,10 @@ export default function Login() {
         return;
       }
 
+      if (data.token != null) {
+        localStorage.setItem("token", data.token);
+      }
+
       localStorage.removeItem("user");
       sessionStorage.removeItem("user");
       
@@ -79,7 +83,6 @@ export default function Login() {
         localStorage.setItem("rememberMe", "false");
       }
 
-      console.log("Redirecionando para home...");
       navigate("/home", { replace: true });
 
     } catch (err) {

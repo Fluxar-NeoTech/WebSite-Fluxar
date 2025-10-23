@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { SendHorizontal } from "lucide-react";
 import {
   Container,
   Welcome,
@@ -62,10 +63,11 @@ export default function ChatBot() {
   };
 
   return (
+    <>
     <Container>
       {!showChat ? (
         <Welcome>
-          <h1>Bem-vindo ao Flux.AI, {userName}!</h1>
+          <h1>Bem-vindo(a) ao Flux.AI, {userName}!</h1>
           <p>Tire dúvidas, insights e busque soluções</p>
           <div className="buttons">
             <button onClick={() => handleSuggestion("Estou tendo baixas no estoque")}>
@@ -85,7 +87,9 @@ export default function ChatBot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pergunte..."
             />
-            <button type="submit">➤</button>
+              <button type="submit">
+                <SendHorizontal size={20} />
+              </button>
           </InputArea>
         </Welcome>
       ) : (
@@ -104,10 +108,13 @@ export default function ChatBot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pergunte..."
             />
-            <button type="submit">➤</button>
+            <button type="submit">
+              <SendHorizontal size={20} />
+            </button>
           </InputArea>
         </ChatContainer>
       )}
     </Container>
+    </>
   );
 }
