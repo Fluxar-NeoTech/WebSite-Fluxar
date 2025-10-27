@@ -9,7 +9,7 @@ export default function RedefinePassword() {
     const [email, setEmail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [password, setPassword] = useState("");
-    const regexSenha = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,28}$/;
+    const regexSenha = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,28}$/;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
