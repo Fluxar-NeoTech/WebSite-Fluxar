@@ -201,7 +201,7 @@ export default function Navbar() {
             active={location.pathname === '/relatorios'}
             onClick={() => handleNavigation('/relatorios')}
           >
-            Relatórios
+            Sobre Nós
           </MenuItem>
         </Menu>
 

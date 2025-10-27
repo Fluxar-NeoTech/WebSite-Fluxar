@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import "./App.css";
-import ChatBot from "./components/ChatBot";
+import ChatBot from "./pages/ChatBot";
 import Navbar from "./components/Navbar";
 import RedefinePassword from "./pages/RedefinePassword";
 

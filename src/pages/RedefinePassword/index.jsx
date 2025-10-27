@@ -9,7 +9,7 @@ export default function RedefinePassword() {
     const [email, setEmail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [password, setPassword] = useState("");
-    const regexSenha = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const regexSenha = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,28}$/;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +20,7 @@ export default function RedefinePassword() {
         }
 
         if (!regexSenha.test(password)) {
-            alert("A senha deve conter pelo menos 8 caracteres, uma letra e um número!");
+            alert("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número.");
             return;
         }
 

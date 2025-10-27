@@ -1,9 +1,9 @@
-import Navbar from "../../components/Navbar";
+import PowerBIReport from "../../components/PowerBIReport";
 
 export default function Home() {
-    return (
-        <div>
-            <h1>Olá</h1>
-        </div>
-    )
+  return (
+    <div>
+      <PowerBIReport />
+    </div>
+  );
 }
