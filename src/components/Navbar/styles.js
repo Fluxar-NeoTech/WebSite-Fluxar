@@ -41,7 +41,6 @@ export const MenuItem = styled.li`
     border-radius: 8px;
     position: relative;
 
-    /* Underline apenas quando ativo */
     &::after {
         content: '';
         position: absolute;
@@ -57,7 +56,6 @@ export const MenuItem = styled.li`
         background: rgba(255, 255, 255, 0.1);
     }
 
-    /* Remove o background quando ativo */
     background: ${props => props.active ? 'transparent' : 'transparent'};
 `;
 

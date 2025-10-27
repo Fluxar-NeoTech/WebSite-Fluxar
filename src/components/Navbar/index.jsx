@@ -48,6 +48,7 @@ export default function Navbar() {
     sessionStorage.removeItem("name");
     localStorage.removeItem("rememberMe");
     sessionStorage.removeItem("user");
+    localStorage.removeItem("token");
     navigate("/");
   };
 
@@ -62,7 +63,9 @@ export default function Navbar() {
         `https://api-fluxar.onrender.com/api/employee/profile/${idUser}`,
         {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Authorization": `Bearer ${user?.token}`,
+          }
         }
       );
 
@@ -110,11 +113,14 @@ export default function Navbar() {
       const email = user?.email;
       if (!email) throw new Error('Email do usuário não encontrado');
 
-      const url = `https://api-fluxar.onrender.com/api/employee/update-photo-site?email=${encodeURIComponent(email)}`;
+      const url = `https://api-fluxar.onrender.com/api/employee/update/photo/site?email=${encodeURIComponent(email)}`;
 
       const response = await fetch(url, {
         method: "PUT",
         body: formData,
+        headers: {
+          "Authorization": `Bearer ${user?.token}`,
+        }
       });
 
       console.log("Response status:", response.status);
@@ -186,16 +192,16 @@ export default function Navbar() {
             Home
           </MenuItem>
           <MenuItem 
-            active={location.pathname === '/chatbot'}
-            onClick={() => handleNavigation('/chatbot')}
+            active={location.pathname === '/fluxai'}
+            onClick={() => handleNavigation('/fluxai')}
           >
-            ChatBot
+            Flux.AI
           </MenuItem>
           <MenuItem 
             active={location.pathname === '/relatorios'}
             onClick={() => handleNavigation('/relatorios')}
           >
-            Relatórios
+            Sobre Nós
           </MenuItem>
         </Menu>
 
