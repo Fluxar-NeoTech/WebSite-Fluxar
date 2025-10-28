@@ -12,6 +12,15 @@ export default defineConfig({
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api')
       }
+    },
+    historyApiFallback: true
+  },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: {
+        main: './index.html'
+      }
     }
   }
 })

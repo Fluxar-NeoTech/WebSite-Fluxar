@@ -43,6 +43,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );
