@@ -9,18 +9,18 @@ import Logo from "../../assets/Logo.svg";
 export default function RedefinePassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const regexSenha = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,28}$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email || !newPassword) {
       alert("Por favor, preencha todos os campos!");
       return;
     }
 
-    if (!regexSenha.test(password)) {
+    if (!regexSenha.test(newPassword)) {
       alert("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número.");
       return;
     }
@@ -33,7 +33,7 @@ export default function RedefinePassword() {
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email, newPassword }),
         }
       );
 
@@ -75,8 +75,8 @@ export default function RedefinePassword() {
             placeholder="Nova senha"
             type="password"
             icon={PasswordIcon}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             required
           />
 
