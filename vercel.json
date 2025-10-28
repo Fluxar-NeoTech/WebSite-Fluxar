@@ -1,23 +1,5 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/redefinePassword",
-      "destination": "./src/pages/RedefinePassword/index.jsx"
-    },
-    {
-      "source": "/home",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/fluxai",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/relatorios",
-      "destination": "/index.html"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
