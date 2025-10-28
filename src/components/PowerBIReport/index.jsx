@@ -72,6 +72,7 @@ const styles = {
       0 15px 35px rgba(0,0,0,0.1),
       0 10px 30px rgba(0,0,0,0.1)
     `,
+    overflow: 'hidden',
     transition: 'all 0.3s ease',
     border: '1px solid rgba(255,255,255,0.2)',
   },
