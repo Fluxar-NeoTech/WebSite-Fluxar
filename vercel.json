@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/redefinePassword",
-      "destination": "/index.html"
+      "destination": "./src/pages/RedefinePassword/index.jsx"
     },
     {
       "source": "/home",
