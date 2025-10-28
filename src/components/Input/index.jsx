@@ -3,7 +3,7 @@ import { InputContainer, Icon, StyledInput, ToggleButton } from "./styles";
 import EyeIcon from "../../assets/eye_icon.svg";
 import ClosedEyeIcon from "../../assets/closed_eye_icon.svg";
 
-export default function Input({ placeholder, value, onChange, type, icon }) {
+export default function Input({ placeholder, value, onChange, type, icon, width = "100%" }) {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === 'password';
 
@@ -14,11 +14,11 @@ export default function Input({ placeholder, value, onChange, type, icon }) {
     const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
 
     return (
-        <InputContainer>
+        <InputContainer width={width}>
             <Icon>
                 <img
                     src={icon}
-                    alt="email icon"
+                    alt=""
                     style={{ width: 20, height: 20 }}
                 />
             </Icon>
@@ -28,7 +28,6 @@ export default function Input({ placeholder, value, onChange, type, icon }) {
                 value={value}
                 onChange={onChange}
                 required
-                isPassword={isPassword}
             />
             {isPassword && (
                 <ToggleButton 
@@ -36,9 +35,9 @@ export default function Input({ placeholder, value, onChange, type, icon }) {
                     onClick={togglePasswordVisibility}
                     aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                 >
-                    <img
-                        src={showPassword ? ClosedEyeIcon : EyeIcon}
-                        alt={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    <img 
+                        src={showPassword ? ClosedEyeIcon : EyeIcon} 
+                        alt="" 
                         style={{ width: 20, height: 20 }}
                     />
                 </ToggleButton>

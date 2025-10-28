@@ -8,8 +8,10 @@ export const InputContainer = styled.div`
     border: 0.5px solid #f39c12;
     border-radius: 7px;
     padding: 12px 15px;
-    width: 420px;
+    width: ${props => props.width || "100%"};
     transition: box-shadow 0.3s;
+    box-sizing: border-box;
+    height: 50px;
 
     &:focus-within {
       border-color: rgba(243, 156, 18, 0.6);
@@ -17,7 +19,7 @@ export const InputContainer = styled.div`
     }
 
     @media ${breakpoints.lg} {
-        width: 300px;
+        width: 100%;
     }
 `;
 
@@ -27,6 +29,7 @@ export const Icon = styled.span`
   align-items: center;
   margin-right: 8px;
   font-size: 18px;
+  flex-shrink: 0;
 `;
 
 export const StyledInput = styled.input`
@@ -36,11 +39,14 @@ export const StyledInput = styled.input`
   background: transparent;
   width: 100%;
   padding: 0;
-  padding-right: ${props => props.isPassword ? '30px' : '0'};
+  box-sizing: border-box;
+  height: 100%;
+ vertical-align: middle;
 
   &::placeholder {
     color: #aaa;
   }
+
 
   &:focus {
     outline: none;
@@ -57,23 +63,19 @@ export const StyledInput = styled.input`
   &:-moz-ui-invalid {
     box-shadow: none;
   }
-`;
+`;  
 
 export const ToggleButton = styled.button`
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
   padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
   
   &:focus {
     outline: 2px solid #f39c12;

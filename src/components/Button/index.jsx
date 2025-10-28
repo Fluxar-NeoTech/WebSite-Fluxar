@@ -8,7 +8,7 @@ export default function Button({ children, onClick, background, backgroundHover,
         $width={width}
         $background={background}
         $backgroundHover={backgroundHover}
-        marginTop={marginTop}
+        $marginTop={marginTop}
         >
             {children}
         </CustomButton>
