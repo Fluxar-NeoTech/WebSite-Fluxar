@@ -3,59 +3,65 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import EmailIcon from "../../assets/email_icon.svg";
 import PasswordIcon from "../../assets/password_icon.svg";
-import { Container, Box } from "./styles";
+import { Container, FormBox, Right, Left } from "./styles";
+import Logo from "../../assets/Logo.svg";
 
 export default function RedefinePassword() {
-    const [email, setEmail] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [password, setPassword] = useState("");
-    const regexSenha = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,28}$/;
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const regexSenha = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,28}$/;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (!email || !password) {
-            alert("Por favor, preencha todos os campos!");
-            return;
+    if (!email || !password) {
+      alert("Por favor, preencha todos os campos!");
+      return;
+    }
+
+    if (!regexSenha.test(password)) {
+      alert("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://api-fluxar.onrender.com/api/employee/update/password",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
         }
+      );
 
-        if (!regexSenha.test(password)) {
-            alert("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número.");
-            return;
-        }
+      if (!response.ok) {
+        alert("E-mail inexistente!");
+        setIsLoading(false);
+        return;
+      }
 
-        setIsLoading(true);
-
-        try {      
-            const response = await fetch(
-                "https://api-fluxar.onrender.com/api/employee/update/password",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password }),
-                }
-            );
-
-            if (!response.ok) {
-                alert("E-mail inexistente!");
-                setIsLoading(false);
-                return;
-            }
-
-            alert("Senha redefinida com sucesso! Volte a tela de login.");
-        } catch (err) {
-            console.error("Erro ao redefinir senha:", err);
-            alert("Erro ao refinir senha. Tente novamente.");
-        } finally {
-            setIsLoading(false);
-        }
-    } 
+      alert("Senha redefinida com sucesso! Volte para a tela de login.");
+    } catch (err) {
+      console.error("Erro ao redefinir senha:", err);
+      alert("Erro ao redefinir senha. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Container>
-      <Box>
-        <h1>Redefina sua senha</h1>
-        <form onSubmit={handleSubmit}>
+      <Left>
+        <img src={Logo} alt="Logo fluxar" />
+      </Left>
+
+      <Right>
+        <FormBox onSubmit={handleSubmit}>
+          <h2>Redefinir Senha</h2>
+
           <Input
             placeholder="E-mail"
             type="email"
@@ -64,6 +70,7 @@ export default function RedefinePassword() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
           <Input
             placeholder="Nova senha"
             type="password"
@@ -72,6 +79,7 @@ export default function RedefinePassword() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
           <Button
             type="submit"
             width="300px"
@@ -79,10 +87,10 @@ export default function RedefinePassword() {
             backgroundHover="linear-gradient(to right, #650a80ff, #9a1ac4ff)"
             marginTop="20"
           >
-            {isLoading ? "Redefinindo..." : "Redefinir senha"}
+            {isLoading ? "Redefinindo..." : "Confirmar"}
           </Button>
-        </form>
-      </Box>
+        </FormBox>
+      </Right>
     </Container>
   );
 }

@@ -11,6 +11,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/redefinePassword" element={<RedefinePassword />}/>
         <Route path="/" element={<Login />} />
         <Route
           path="/home"
@@ -42,12 +43,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-       <Route
-          path="/redefinePassword"
-          element={
-            <RedefinePassword />
-          }
-        />
+        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );

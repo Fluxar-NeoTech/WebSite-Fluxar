@@ -2,55 +2,51 @@ import styled from "styled-components";
 import { breakpoints } from "../../styles/breakpoints";
 
 export const Container = styled.div`
-  height: 100vh;
-  width: 100%;
-  background: #FEFAFF;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", sans-serif;
+  width: 100%;
+  height: 100vh;
 `;
 
-export const Box = styled.div`
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 40px 60px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+export const Right = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Left = styled.div`
+  display: flex;
+  width: 75%;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #46005a, #720892ff);
+
+  @media ${breakpoints.md} {
+    display: none;
+  }
+`;
+
+export const FormBox = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 90%;
-  max-width: 420px;
-  text-align: center;
+  justify-content: space-between;
+  height: 320px;
 
-  h1 {
-    font-size: 35px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    color: #2F2F2F;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-  }
-
-  button {
-    margin-top: 20px;
+  & h2 {
+    font-family: Montserrat, sans-serif;
+    font-size: 50px;
+    color: #46005a;
+    text-align: center;
   }
 
   @media ${breakpoints.lg} {
-    max-width: 320px;
+    & h2 {
+      font-size: 40px;
+    }
   }
 
-  @media ${breakpoints.md} {
-    background: none;
-    box-shadow: none;
+  @media ${breakpoints.sm} {
+    height: 350px;
   }
 `;
