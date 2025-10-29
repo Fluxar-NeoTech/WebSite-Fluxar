@@ -16,21 +16,31 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
-    const userFromSessionStorage = JSON.parse(sessionStorage.getItem("user"));
-    
-    const loggedUser = userFromLocalStorage || userFromSessionStorage;
-    
-    if (loggedUser && loggedUser.role === "A") {
-      console.log("Usuário admin encontrado, redirecionando para home");
-      navigate("/home");
-    } else if (loggedUser) {
-      console.log("Usuário não admin encontrado, limpando storage");
+    const storedUser =
+      JSON.parse(localStorage.getItem("user")) ||
+      JSON.parse(sessionStorage.getItem("user"));
+
+    if (!storedUser) return;
+
+    if (Date.now() > storedUser.expires) {
+      console.log("Sessão expirada. Limpando dados...");
       localStorage.removeItem("user");
-      localStorage.removeItem("rememberMe");
       sessionStorage.removeItem("user");
+      localStorage.removeItem("rememberMe");
+      localStorage.removeItem("token");
+      return;
+    }
+
+    if (storedUser.role === "A") {
+      navigate("/home");
+    } else {
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+      localStorage.removeItem("rememberMe");
+      localStorage.removeItem("token");
     }
   }, [navigate]);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -68,20 +78,29 @@ export default function Login() {
         return;
       }
 
-      if (data.token != null) {
-        localStorage.setItem("token", data.token);
-      }
+      const expires = rememberMe
+        ? Date.now() + 7 * 24 * 60 * 60 * 1000
+        : Date.now() + 60 * 60 * 1000
+
+      const userData = {
+        ...data,
+        expires
+      };
 
       localStorage.removeItem("user");
       sessionStorage.removeItem("user");
       
-      if (rememberMe) {
-        localStorage.setItem("user", JSON.stringify(data));
-        localStorage.setItem("rememberMe", "true");
-      } else {
-        sessionStorage.setItem("user", JSON.stringify(data));
-        localStorage.setItem("rememberMe", "false");
-      }
+      if (data.token != null) {
+        if (rememberMe) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("rememberMe", "true");
+          localStorage.setItem("token", data.token);
+        } else {
+          sessionStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("rememberMe", "false");
+          sessionStorage.setItem("token", data.token);
+        }
+    }
 
       navigate("/home", { replace: true });
 

@@ -31,18 +31,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/relatorios"
-          element={
-            <ProtectedRoute>
-              <Navbar />
-              <div style={{ paddingTop: '80px', textAlign: 'center' }}>
-                <h1>Relatórios</h1>
-                <p>Página em desenvolvimento</p>
-              </div>
-            </ProtectedRoute>
-          }
-        />
         <Route path="*" element={<Login />} />
       </Routes>
     </Router>

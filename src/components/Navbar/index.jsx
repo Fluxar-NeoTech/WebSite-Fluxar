@@ -9,7 +9,20 @@ import {
   Left,
   Right,
   Dropdown,
-  HiddenFileInput
+  HiddenFileInput,
+  MobileMenuButton,
+  Sidebar,
+  SidebarHeader,
+  SidebarTitle,
+  CloseButton,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarProfile,
+  SidebarProfileImage,
+  SidebarProfileInfo,
+  SidebarProfileName,
+  SidebarProfileEmail,
+  Overlay
 } from "./styles";
 import ProfileIconSVG from "../../assets/profile_icon.svg";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -33,14 +46,33 @@ const loadingStyle = {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(ProfileIconSVG);
   const [isUploading, setIsUploading] = useState(false);
+  const [userName, setUserName] = useState("");
   const profileRef = useRef(null);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   
-  const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"));
+  const user = (() => {
+    const stored =
+      JSON.parse(localStorage.getItem("user")) ||
+      JSON.parse(sessionStorage.getItem("user"));
+      
+    if (!stored) return null;
+
+    if (Date.now() > stored.expires) {
+      console.log("Sessão expirada! Deslogando...");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+      localStorage.removeItem("rememberMe");
+      return null;
+    }
+
+    return stored;
+  })();
+
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -50,10 +82,12 @@ export default function Navbar() {
     sessionStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/");
+    setSidebarOpen(false);
   };
 
   const handleNavigation = (path) => {
     navigate(path);
+    setSidebarOpen(false);
   };
 
   const handleProfile = useCallback(async () => {
@@ -76,6 +110,8 @@ export default function Navbar() {
 
       const data = await response.json();
       setProfileImage(data.profilePhoto || ProfileIconSVG);
+      setUserName(data.firstName || "Usuário");
+      
       if (localStorage.getItem("rememberMe") === "true") {
         localStorage.setItem("name", JSON.stringify(data.firstName));
       } else {
@@ -88,6 +124,12 @@ export default function Navbar() {
 
   const handleFileSelect = () => {
     fileInputRef.current?.click();
+    setSidebarOpen(false);
+  };
+
+  const handleAboutUs = () => {
+    window.open("https://fluxar.com.br/", "_blank");
+    setSidebarOpen(false);
   };
 
   const handleFileUpload = async (event) => {
@@ -167,91 +209,153 @@ export default function Navbar() {
     handleProfile();
     
     const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) setOpen(false);
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setOpen(false);
+      }
     };
     
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleProfile]);
 
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.keyCode === 27) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, []);
+
   if (!user) return null;
 
   return (
-    <NavbarContainer>
-      <Left>
-        <Logo>
-          <img src={FluxarLogo} alt="Logo do Fluxar" draggable="false" />
-        </Logo>
-      </Left>
-      <Right>
-        <Menu>
-          <MenuItem 
+    <>
+      <NavbarContainer>
+        <Left>
+          <Logo>
+            <img src={FluxarLogo} alt="Logo do Fluxar" draggable="false" />
+          </Logo>
+        </Left>
+        <Right>
+          <Menu>
+            <MenuItem 
+              active={location.pathname === '/home'}
+              onClick={() => handleNavigation('/home')}
+            >
+              Home
+            </MenuItem>
+            <MenuItem 
+              active={location.pathname === '/fluxai'}
+              onClick={() => handleNavigation('/fluxai')}
+            >
+              Flux.AI
+            </MenuItem>
+            <MenuItem 
+              active={false}
+              onClick={handleAboutUs}
+            >
+              Sobre Nós
+            </MenuItem>
+          </Menu>
+
+          <ProfileIcon ref={profileRef}>
+            <div 
+              onClick={() => !isUploading && setOpen(!open)}
+              style={{ position: 'relative', cursor: isUploading ? 'wait' : 'pointer' }}
+            >
+              <img
+                src={getProfileImageWithCacheBuster()}
+                alt="Foto de perfil"
+                draggable="false"
+                style={{ 
+                  borderRadius: "50%", 
+                  width: 40, 
+                  height: 40,
+                  opacity: isUploading ? 0.7 : 1,
+                  filter: isUploading ? 'grayscale(50%)' : 'none',
+                  objectFit: 'cover'
+                }}
+              />
+              {isUploading && <div style={loadingStyle}>...</div>}
+            </div>
+            
+            {open && (
+              <Dropdown>
+                <li 
+                  onClick={handleFileSelect}
+                  style={{ pointerEvents: isUploading ? 'none' : 'auto', opacity: isUploading ? 0.6 : 1 }}
+                >
+                  {isUploading ? 'Enviando...' : 'Alterar foto de perfil'}
+                </li>
+                <li 
+                  id="logout" 
+                  onClick={handleLogout}
+                  style={{ pointerEvents: isUploading ? 'none' : 'auto', opacity: isUploading ? 0.6 : 1 }}
+                >
+                  Sair da conta
+                </li>
+              </Dropdown>
+            )}
+          </ProfileIcon>
+
+          <MobileMenuButton onClick={() => setSidebarOpen(true)}>
+            ☰
+          </MobileMenuButton>
+        </Right>
+      </NavbarContainer>
+
+      <Overlay isOpen={sidebarOpen} onClick={() => setSidebarOpen(false)} />
+      <Sidebar isOpen={sidebarOpen}>
+        <SidebarHeader>
+          <SidebarTitle>Menu</SidebarTitle>
+          <CloseButton onClick={() => setSidebarOpen(false)}>×</CloseButton>
+        </SidebarHeader>
+
+        <SidebarProfile>
+          <SidebarProfileImage 
+            src={getProfileImageWithCacheBuster()} 
+            alt="Foto de perfil" 
+          />
+          <SidebarProfileInfo>
+            <SidebarProfileName>{userName}</SidebarProfileName>
+            <SidebarProfileEmail>{user?.email}</SidebarProfileEmail>
+          </SidebarProfileInfo>
+        </SidebarProfile>
+
+        <SidebarMenu>
+          <SidebarMenuItem 
             active={location.pathname === '/home'}
             onClick={() => handleNavigation('/home')}
           >
             Home
-          </MenuItem>
-          <MenuItem 
+          </SidebarMenuItem>
+          <SidebarMenuItem 
             active={location.pathname === '/fluxai'}
             onClick={() => handleNavigation('/fluxai')}
           >
             Flux.AI
-          </MenuItem>
-          <MenuItem 
-            active={location.pathname === '/relatorios'}
-            onClick={() => handleNavigation('/relatorios')}
-          >
+          </SidebarMenuItem>
+          <SidebarMenuItem onClick={handleAboutUs}>
             Sobre Nós
-          </MenuItem>
-        </Menu>
+          </SidebarMenuItem>
+          <SidebarMenuItem onClick={handleFileSelect}>
+            Alterar foto de perfil
+          </SidebarMenuItem>
+          <SidebarMenuItem onClick={handleLogout} style={{ color: '#ff4444' }}>
+            Sair da conta
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </Sidebar>
 
-        <ProfileIcon ref={profileRef}>
-          <div 
-            onClick={() => !isUploading && setOpen(!open)}
-            style={{ position: 'relative', cursor: isUploading ? 'wait' : 'pointer' }}
-          >
-            <img
-              src={getProfileImageWithCacheBuster()}
-              alt="Foto de perfil"
-              draggable="false"
-              style={{ 
-                borderRadius: "50%", 
-                width: 40, 
-                height: 40,
-                opacity: isUploading ? 0.7 : 1,
-                filter: isUploading ? 'grayscale(50%)' : 'none',
-                objectFit: 'cover'
-              }}
-            />
-            {isUploading && <div style={loadingStyle}>...</div>}
-          </div>
-          
-          <HiddenFileInput
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            accept="image/*"
-          />
-
-          {open && (
-            <Dropdown>
-              <li 
-                onClick={handleFileSelect}
-                style={{ pointerEvents: isUploading ? 'none' : 'auto', opacity: isUploading ? 0.6 : 1 }}
-              >
-                {isUploading ? 'Enviando...' : 'Alterar foto de perfil'}
-              </li>
-              <li 
-                id="logout" 
-                onClick={handleLogout}
-                style={{ pointerEvents: isUploading ? 'none' : 'auto', opacity: isUploading ? 0.6 : 1 }}
-              >
-                Sair da conta
-              </li>
-            </Dropdown>
-          )}
-        </ProfileIcon>
-      </Right>
-    </NavbarContainer>
+      <HiddenFileInput
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+        accept="image/*"
+      />
+    </>
   );
 }
