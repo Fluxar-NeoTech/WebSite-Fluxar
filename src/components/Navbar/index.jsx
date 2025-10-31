@@ -63,10 +63,11 @@ export default function Navbar() {
     if (!stored) return null;
 
     if (Date.now() > stored.expires) {
-      console.log("Sessão expirada! Deslogando...");
+      alert("Sessão expirada! Deslogando...");
       localStorage.removeItem("user");
       sessionStorage.removeItem("user");
       localStorage.removeItem("rememberMe");
+      navigate("/");
       return null;
     }
 
@@ -128,7 +129,7 @@ export default function Navbar() {
   };
 
   const handleAboutUs = () => {
-    window.open("https://fluxar.com.br/", "_blank");
+    window.open("https://neotech-oj1r.onrender.com/", "_blank");
     setSidebarOpen(false);
   };
 

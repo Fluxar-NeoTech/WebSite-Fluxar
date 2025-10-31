@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { SendHorizontal } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import {
   Container,
   Welcome,
@@ -15,6 +16,7 @@ export default function ChatBot() {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const chatRef = useRef(null);
 
   useEffect(() => {
@@ -23,30 +25,37 @@ export default function ChatBot() {
     }
   }, [messages]);
 
-  const sendMessage = async (text) => {
-    if (!text.trim()) return;
+  const sendMessage = async (pergunta) => {
+    if (!pergunta.trim()) return;
 
-    const userMsg = { sender: "user", text };
+    const userMsg = { sender: "user", text: pergunta };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
 
+    setLoading(true);
+    setMessages((prev) => [...prev, { sender: "bot", text: "", loading: true }]);
+
     try {
-      const response = await fetch(`http://localhost:8080/api/chat/${userId}`, {
+      const response = await fetch(`http://98.84.242.214:8080/session/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: text }),
+        body: JSON.stringify({ pergunta }),
       });
 
       const data = await response.json();
-      const botMsg = { sender: "bot", text: data.response };
 
-      setMessages((prev) => [...prev, botMsg]);
+      setMessages((prev) => [
+        ...prev.slice(0, -1),
+        { sender: "bot", text: data.resposta, loading: false }
+      ]);
     } catch (err) {
       console.log(err);
       setMessages((prev) => [
-        ...prev,
+        ...prev.slice(0, -1),
         { sender: "bot", text: "❌ Erro ao conectar com o servidor." },
       ]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,7 +72,6 @@ export default function ChatBot() {
   };
 
   return (
-    <>
     <Container>
       {!showChat ? (
         <Welcome>
@@ -87,17 +95,17 @@ export default function ChatBot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pergunte..."
             />
-              <button type="submit">
-                <SendHorizontal size={20} />
-              </button>
+            <button type="submit">
+              <SendHorizontal size={20} />
+            </button>
           </InputArea>
         </Welcome>
       ) : (
         <ChatContainer>
           <Messages ref={chatRef}>
             {messages.map((m, i) => (
-              <div key={i} className={`msg ${m.sender}`}>
-                {m.text}
+              <div key={i} className={`msg ${m.sender} ${m.loading ? "loading" : ""}`}>
+                <ReactMarkdown>{m.text}</ReactMarkdown>
               </div>
             ))}
           </Messages>
@@ -115,6 +123,5 @@ export default function ChatBot() {
         </ChatContainer>
       )}
     </Container>
-    </>
   );
 }

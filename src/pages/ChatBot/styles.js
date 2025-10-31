@@ -101,12 +101,32 @@ export const Messages = styled.div`
   .user {
     background: #4a006e;
     align-self: flex-end;
+    padding: 10px 30px;
   }
 
   .bot {
     background: #FEFAFF;
     color: #2F2F2F;
     align-self: flex-start;
+    padding: 10px 30px;
+  }
+
+  .loading {
+    font-style: italic;
+    opacity: 0.7;
+    position: relative;
+  }
+
+  .loading::after {
+    content: "...";
+    font-size: 20px;
+    animation: blink 1.2s infinite;
+  }
+
+  @keyframes blink {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
   }
 `;
 
@@ -150,5 +170,4 @@ export const InputArea = styled.form`
       color: white;
     }
   }
-
 `;

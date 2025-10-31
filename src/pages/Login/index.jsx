@@ -23,11 +23,12 @@ export default function Login() {
     if (!storedUser) return;
 
     if (Date.now() > storedUser.expires) {
-      console.log("Sessão expirada. Limpando dados...");
+      alert("Sessão expirada. Limpando dados...");
       localStorage.removeItem("user");
       sessionStorage.removeItem("user");
       localStorage.removeItem("rememberMe");
       localStorage.removeItem("token");
+      navigate("/");
       return;
     }
 
