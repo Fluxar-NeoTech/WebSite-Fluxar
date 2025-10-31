@@ -91,7 +91,6 @@ As URLs podem ser configuradas em um arquivo `.env`:
 
 ```
 VITE_API_BASE_URL=https://api-fluxar.onrender.com
-VITE_API_LOGS_URL=https://api-logs-fluxar-1.onrender.com
 ```
 
 ### Power BI 📊
@@ -138,7 +137,6 @@ O chatbot embutido auxilia o analista na **interpretação de dados de estoque**
 Caso deseje testar ou visualizar os endpoints usados pelo site:
 
 * **API Fluxar:** [https://api-fluxar.onrender.com/swagger-ui.html](https://api-fluxar.onrender.com/swagger-ui.html)
-* **API Logs Fluxar:** [https://api-logs-fluxar-1.onrender.com/swagger-ui.html](https://api-logs-fluxar-1.onrender.com/swagger-ui.html)
 
 ---
 
