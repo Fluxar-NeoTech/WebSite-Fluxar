@@ -31,22 +31,29 @@ export const FormBox = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 320px;
+  height: 250px;
 
   & h2 {
     font-family: Montserrat, sans-serif;
     font-size: 50px;
     color: #46005a;
     text-align: center;
+    margin-bottom: 10px;
+  }
+
+  & > div {
+    margin: 5px 0;
   }
 
   @media ${breakpoints.lg} {
+    height: 280px;
     & h2 {
       font-size: 40px;
     }
   }
 
   @media ${breakpoints.sm} {
-    height: 350px;
+    height: 330px;
   }
 `;
+

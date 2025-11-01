@@ -12,7 +12,7 @@ export const CustomButton = styled.button`
     background-size: 200% auto;
     width: ${props => props.width || "300px"};
     transition: background-position 0.3s ease;
-    margin-top: ${props => props.marginTop}px;
+    margin-top: ${props => props.$marginTop}px;
 
     &:hover {
         background-position: right center;

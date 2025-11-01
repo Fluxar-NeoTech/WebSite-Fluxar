@@ -146,7 +146,7 @@ export default function Login() {
             width="300px"
             background="linear-gradient(to right, #46005a, #a03cbeff);"
             backgroundHover="linear-gradient(to right, #650a80ff, #9a1ac4ff)"
-            marginTop="20"
+            marginTop={20}
             disabled={isLoading}
           >
             {isLoading ? "Entrando..." : "Entrar"}
