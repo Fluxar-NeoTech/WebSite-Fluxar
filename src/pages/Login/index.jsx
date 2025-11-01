@@ -29,7 +29,6 @@ export default function Login() {
       localStorage.removeItem("rememberMe");
       localStorage.removeItem("token");
       navigate("/");
-      return;
     }
 
     if (storedUser.role === "A") {
@@ -152,6 +151,19 @@ export default function Login() {
           >
             {isLoading ? "Entrando..." : "Entrar"}
           </Button>
+          <p
+            onClick={() => window.open("/redefinePassword", "_blank")}
+            style={{
+              marginTop: "12px",
+              color: "#46005A",
+              fontSize: "14px",
+              cursor: "pointer",
+              textDecoration: "underline",
+              fontWeight: "500"
+            }}
+          >
+            Redefinir senha
+          </p>
         </FormLogin>
       </Right>
     </Container>

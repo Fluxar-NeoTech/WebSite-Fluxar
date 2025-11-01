@@ -36,7 +36,7 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, { sender: "bot", text: "", loading: true }]);
 
     try {
-      const response = await fetch(`http://98.84.242.214:8080/session/${userId}`, {
+      const response = await fetch(`https://web-site-fluxar.vercel.app/api/session/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pergunta }),

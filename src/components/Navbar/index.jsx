@@ -68,7 +68,6 @@ export default function Navbar() {
       sessionStorage.removeItem("user");
       localStorage.removeItem("rememberMe");
       navigate("/");
-      return null;
     }
 
     return stored;
