@@ -25,14 +25,23 @@ A aplicação web fornece:
 ---
 
 ## Tecnologias Utilizadas 🛠️
-<img src="./.github/images/DevWeb_Icons.png" alt="HTML" height="27"/>
-<img src="./.github/images/React-Icon.png" alt="React" width="29"/>
+
+Tecnologias e dependências usadas no desenvolvimento:
+
+```bash
+npm install styled-components        # Estilização com CSS-in-JS
+npm install react-icons              # Ícones para UI
+npm install react-router-dom         # Gerenciamento de rotas
+npm install lucide-react             # Biblioteca de ícones moderna para React
+npm install powerbi-client           # Inserção de dashboards do Power BI
+npm install react-markdown           # Renderização de Markdown no chatbot
+
+```
 
 ---
 
 ## Estrutura do Projeto 📐
 
-```
 
 WebSite-Fluxar/
 │
