@@ -16,7 +16,6 @@ export default function ChatBot() {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
   const chatRef = useRef(null);
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
 
-    setLoading(true);
     setMessages((prev) => [...prev, { sender: "bot", text: "", loading: true }]);
 
     try {
@@ -54,8 +52,6 @@ export default function ChatBot() {
         ...prev.slice(0, -1),
         { sender: "bot", text: "❌ Erro ao conectar com o servidor." },
       ]);
-    } finally {
-      setLoading(false);
     }
   };
 
