@@ -17,6 +17,10 @@ export default function ChatBot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const chatRef = useRef(null);
+  const today = new Date();
+  const lastMonthDate = new Date(today.setMonth(today.getMonth() - 1));
+  const lastMonth = lastMonthDate.toLocaleString("pt-BR", { month: "long" });
+  const reportQuestion = `Gere o relatório de ${lastMonth}`;
 
   useEffect(() => {
     if (chatRef.current) {
@@ -79,14 +83,14 @@ export default function ChatBot() {
           <p>Tire dúvidas, insights e busque soluções</p>
           <div className="buttons">
             <button onClick={() => handleSuggestion("Como o Flux.AI pode me ajudar?")}>
-              Como o Flux.AI pode me ajudar?
-            </button>
-            <button onClick={() => handleSuggestion("Desperdiçamos muitos produtos")}>
-              Desperdiçamos muitos produtos
-            </button>
-            <button onClick={() => handleSuggestion("Há altas e baixas inconsistentes")}>
-              Há altas e baixas inconsistentes
-            </button>
+            Como o Flux.AI pode me ajudar?
+          </button>
+          <button onClick={() => handleSuggestion(reportQuestion)}>
+            Gere o relatório de {lastMonth}
+          </button>
+          <button onClick={() => handleSuggestion("Há altas e baixas inconsistentes")}>
+            Há altas e baixas inconsistentes
+          </button>
           </div>
           <InputArea onSubmit={handleSubmit}>
             <input
