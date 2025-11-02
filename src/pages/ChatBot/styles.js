@@ -119,7 +119,6 @@ export const Messages = styled.div`
 
   .loading::after {
     content: "...";
-    font-size: 20px;
     animation: blink 1.2s infinite;
   }
 

@@ -17,6 +17,10 @@ export default function ChatBot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const chatRef = useRef(null);
+  const today = new Date();
+  const lastMonthDate = new Date(today.setMonth(today.getMonth() - 1));
+  const lastMonth = lastMonthDate.toLocaleString("pt-BR", { month: "long" });
+  const reportQuestion = `Gere o relatório de ${lastMonth}`;
 
   useEffect(() => {
     if (chatRef.current) {
@@ -42,9 +46,13 @@ export default function ChatBot() {
 
       const data = await response.json();
 
+      const botText = data?.resposta?.trim();
+
       setMessages((prev) => [
         ...prev.slice(0, -1),
-        { sender: "bot", text: data.resposta, loading: false }
+        botText && botText.length > 0
+          ? { sender: "bot", text: botText, loading: false }
+          : { sender: "bot", text: "🤔 Desculpe, não consegui formular uma reposta." }
       ]);
     } catch (err) {
       console.log(err);
@@ -74,15 +82,15 @@ export default function ChatBot() {
           <h1>Bem-vindo(a) ao Flux.AI, {userName}!</h1>
           <p>Tire dúvidas, insights e busque soluções</p>
           <div className="buttons">
-            <button onClick={() => handleSuggestion("Estou tendo baixas no estoque")}>
-              Estou tendo baixas no estoque
-            </button>
-            <button onClick={() => handleSuggestion("Desperdiçamos muitos produtos")}>
-              Desperdiçamos muitos produtos
-            </button>
-            <button onClick={() => handleSuggestion("Há altas e baixas inconsistentes")}>
-              Há altas e baixas inconsistentes
-            </button>
+            <button onClick={() => handleSuggestion("Como o Flux.AI pode me ajudar?")}>
+            Como o Flux.AI pode me ajudar?
+          </button>
+          <button onClick={() => handleSuggestion(reportQuestion)}>
+            Gere o relatório de {lastMonth}
+          </button>
+          <button onClick={() => handleSuggestion("Há altas e baixas inconsistentes")}>
+            Há altas e baixas inconsistentes
+          </button>
           </div>
           <InputArea onSubmit={handleSubmit}>
             <input
