@@ -1,28 +1,33 @@
 import { Navigate } from "react-router-dom";
 
 export default function ProtectedRoute({ children }) {
-  const userFromLocalStorage = localStorage.getItem("user");
-  const userFromSessionStorage = sessionStorage.getItem("user");
-  const user = userFromLocalStorage || userFromSessionStorage;
+  const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
 
-  if (!user) {
+  if (!storedUser) {
     console.log("Usuário não autenticado, redirecionando para login");
     return <Navigate to="/" replace />;
   }
 
+  let userData;
   try {
-    const userData = JSON.parse(user);
-    if (userData.role !== "A") {
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("user");
-      localStorage.removeItem("rememberMe");
-      return <Navigate to="/" replace />;
-    }
+    userData = JSON.parse(storedUser);
   } catch (error) {
-    console.log("Erro: ", error);
-    localStorage.removeItem("user");
-    sessionStorage.removeItem("user");
-    localStorage.removeItem("rememberMe");
+    console.log("Erro ao analisar userData:", error);
+    localStorage.clear();
+    sessionStorage.clear();
+    return <Navigate to="/" replace />;
+  }
+
+  if (!userData || userData.role !== "A") {
+    localStorage.clear();
+    sessionStorage.clear();
+    return <Navigate to="/" replace />;
+  }
+
+  if (Date.now() > userData.expires) {
+    alert("Sessão expirada! Redirecionando para login.");
+    localStorage.clear();
+    sessionStorage.clear();
     return <Navigate to="/" replace />;
   }
 

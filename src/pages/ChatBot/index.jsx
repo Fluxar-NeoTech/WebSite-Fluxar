@@ -42,9 +42,13 @@ export default function ChatBot() {
 
       const data = await response.json();
 
+      const botText = data?.resposta?.trim();
+
       setMessages((prev) => [
         ...prev.slice(0, -1),
-        { sender: "bot", text: data.resposta, loading: false }
+        botText && botText.length > 0
+          ? { sender: "bot", text: botText, loading: false }
+          : { sender: "bot", text: "🤔 Desculpe, não consegui formular uma reposta." }
       ]);
     } catch (err) {
       console.log(err);
@@ -74,8 +78,8 @@ export default function ChatBot() {
           <h1>Bem-vindo(a) ao Flux.AI, {userName}!</h1>
           <p>Tire dúvidas, insights e busque soluções</p>
           <div className="buttons">
-            <button onClick={() => handleSuggestion("Estou tendo baixas no estoque")}>
-              Estou tendo baixas no estoque
+            <button onClick={() => handleSuggestion("Como o Flux.AI pode me ajudar?")}>
+              Como o Flux.AI pode me ajudar?
             </button>
             <button onClick={() => handleSuggestion("Desperdiçamos muitos produtos")}>
               Desperdiçamos muitos produtos

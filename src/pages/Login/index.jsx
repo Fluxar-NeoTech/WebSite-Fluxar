@@ -22,15 +22,6 @@ export default function Login() {
 
     if (!storedUser) return;
 
-    if (Date.now() > storedUser.expires) {
-      alert("Sessão expirada. Limpando dados...");
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("user");
-      localStorage.removeItem("rememberMe");
-      localStorage.removeItem("token");
-      navigate("/");
-    }
-
     if (storedUser.role === "A") {
       navigate("/home");
     } else {

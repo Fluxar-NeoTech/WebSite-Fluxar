@@ -62,14 +62,6 @@ export default function Navbar() {
       
     if (!stored) return null;
 
-    if (Date.now() > stored.expires) {
-      alert("Sessão expirada! Deslogando...");
-      localStorage.removeItem("user");
-      sessionStorage.removeItem("user");
-      localStorage.removeItem("rememberMe");
-      navigate("/");
-    }
-
     return stored;
   })();
 
