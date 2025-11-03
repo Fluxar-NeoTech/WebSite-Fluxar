@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import FluxarLogo from "../../assets/Logo.svg";
+import MenuIcon from "../../assets/menu_icon.svg";
 import {
   NavbarContainer,
   Logo,
@@ -294,7 +295,7 @@ export default function Navbar() {
           </ProfileIcon>
 
           <MobileMenuButton onClick={() => setSidebarOpen(true)}>
-            ☰
+            <img src={MenuIcon} alt="Menu" draggable="false" />
           </MobileMenuButton>
         </Right>
       </NavbarContainer>
