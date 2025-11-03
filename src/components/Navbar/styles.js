@@ -133,8 +133,6 @@ export const MobileMenuButton = styled.button`
         display: flex;
         background: none;
         border: none;
-        color: white;
-        font-size: 2rem;
         cursor: pointer;
         padding: 8px;
         border-radius: 4px;
